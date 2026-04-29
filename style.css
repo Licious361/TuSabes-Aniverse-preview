@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Permanent+Marker&display=swap');
+
+:root {
+  --bg-dusk: #080a08;
+  --forest-deep: #132219;
+  --crimson-blood: #8b0000;
+  --lantern-gold: rgba(255, 180, 50, 0.12);
+  --parchment: #e2dfd2;
+  --transition-speed: 0.8s;
+}
+
+body {
+  background-color: var(--bg-dusk);
+  color: var(--parchment);
+  font-family: 'Cinzel', serif;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url('https://www.transparenttextures.com/patterns/stardust.png');
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.market-zone {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 100px;
+}
+
+.market-zone.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.product-card {
+  background: linear-gradient(145deg, #0d130e, #080a08);
+  border: 1px solid rgba(139, 0, 0, 0.2);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  border-color: var(--crimson-blood);
+  box-shadow: 0 0 25px var(--lantern-gold);
+  transform: translateY(-8px);
+}
+
+.stall-img-container {
+  aspect-ratio: 16 / 9;
+  background: var(--forest-deep);
+  margin-bottom: 15px;
+}
+
+.market-tag {
+  font-family: 'Permanent Marker', cursive;
+  color: var(--crimson-blood);
+  transform: rotate(-3deg);
+  display: inline-block;
+  font-size: 1.2rem;
+}
+
+.backroom-entry {
+  text-align: center;
+  padding: 40px;
+  filter: grayscale(1) blur(2px);
+  transition: filter 0.8s ease;
+}
+
+.backroom-entry:hover { filter: grayscale(0) blur(0px); }
+.backroom-link { color: var(--crimson-blood); text-decoration: none; letter-spacing: 5px; }
