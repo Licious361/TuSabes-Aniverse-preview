@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuSabes AniVerse - Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header style="text-align: center; padding: 40px 20px;">
+        <h1 style="font-size: 2.5rem; letter-spacing: 2px;">TuSabes AniVerse</h1>
+        <p style="font-family: 'Permanent Marker', cursive; color: #8b0000;">Preview Environment</p>
+    </header>
+
+    <main style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+        
+        <section id="front-stalls" class="market-zone">
+            <h2>Front Stalls</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div class="product-card stall-item" style="padding: 20px;">
+                    <div class="stall-img-container"></div>
+                    <h3>Ronin Heavy Hoodie</h3>
+                    <span class="market-tag">Drop 01</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="inner-aisles" class="market-zone">
+            <h2>Inner Aisles</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div class="product-card stall-item" style="padding: 20px;">
+                    <div class="stall-img-container"></div>
+                    <h3>Archival Prints</h3>
+                    <span class="market-tag">Restocked</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="collectors-corner" class="market-zone">
+            <h2>Collector's Corner</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div class="product-card collector-card" style="padding: 20px; text-align: center;">
+                    <div class="stall-img-container" style="aspect-ratio: 2.5/3.5;"></div>
+                    <h3>1st Edition Holo</h3>
+                    <span class="market-tag">Vault</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="market-zone">
+        <div class="backroom-entry">
+            <a href="#" class="backroom-link">The Backroom</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
