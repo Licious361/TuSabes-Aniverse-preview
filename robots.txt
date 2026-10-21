@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+
+# Draft-only. Replace these rules for the future approved public launch.
