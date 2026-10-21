@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(config.analyticsEnabled===true && config.eventEndpoint==="/api/event"){
       const packet={event:safe.event};
       for(const field of ["action","design","sku","partner","category"]){
-        if(typeof safe[field]==="string"&&/^[\\w-]{1,48}$/.test(safe[field]))packet[field]=safe[field];
+        if(typeof safe[field]==="string"&&/^[a-zA-Z0-9_-]{1,48}$/.test(safe[field]))packet[field]=safe[field];
       }
       fetch(config.eventEndpoint,{
         method:"POST",headers:{"Content-Type":"application/json"},
