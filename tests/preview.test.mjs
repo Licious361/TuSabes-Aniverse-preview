@@ -41,10 +41,13 @@ test("catalog is true editorial discovery, not counterfeit affiliate accounting"
     assert.ok(!c.affiliate_url);
   }
   const script=read("script.js");
-  assert.match(script,/partner_verified===true/);
-  assert.match(script,/rights_verified===true/);
-  assert.match(script,/link_verified===true/);
+  assert.match(script,/partner_verified!==true/);
+  assert.match(script,/rights_verified!==true/);
+  assert.match(script,/link_verified!==true/);
   assert.match(script,/editorial_outbound_click/);
+  for (const name of ["Sideshow","Hot Topic","BoxLunch","CDJapan","Playasia"]) assert.ok(script.includes(`"${name}"`),`Merchant allowlist missing ${name}`);
+  assert.match(script,/tracking_host_verified===true/);
+  assert.match(script,/cjRedirectHosts/);
 });
 
 test("signup is closed by default and never claims false success",async()=>{
