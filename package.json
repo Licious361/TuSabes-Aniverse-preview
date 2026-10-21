@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check script.js && node --check functions/api/signup.js && node --check functions/api/event.js"
+    "check": "node --check script.js && node --check functions/api/signup.js && node --check functions/api/event.js",
+    "build": "node scripts/build.mjs"
   }
 }
