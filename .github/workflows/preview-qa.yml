@@ -1,0 +1,34 @@
+name: AniVerse preview safety and functional QA
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'experience.html'
+      - 'script.js'
+      - 'style.css'
+      - 'config.js'
+      - 'privacy.html'
+      - 'catalog.json'
+      - 'functions/**'
+      - 'tests/**'
+      - '.github/workflows/preview-qa.yml'
+      - '_routes.json'
+      - 'package.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout changes
+        uses: actions/checkout@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax checks
+        run: npm run check
+      - name: Deterministic anti-drift and backend tests
+        run: npm test
