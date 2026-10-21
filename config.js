@@ -1,4 +1,8 @@
-// PUBLIC CONFIGURATION ONLY. Never put API keys, passwords, or tokens here.
-// Set this to the verified HTTPS endpoint of an approved email signup provider.
-// Keep empty until successful end-to-end consent, confirmation and unsubscribe testing.
-window.ANIVERSE_CONFIG = Object.freeze({signupEndpoint:""});
+// Public configuration — no passwords, API keys, or private customer data.
+// Cloudflare Pages only: enable AFTER binding WAITLIST, approving privacy,
+// configuring abuse controls, and testing valid/invalid/duplicate submissions.
+// On GitHub Pages, leave signupEnabled=false because Pages cannot execute Functions.
+window.ANIVERSE_CONFIG=Object.freeze({
+  signupEnabled:false,
+  signupEndpoint:"/api/signup"
+});
