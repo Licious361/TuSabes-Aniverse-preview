@@ -1,5 +1,7 @@
 name: AniVerse preview safety and functional QA
 on:
+  push:
+    branches: ['launch/affiliate-preview-gated-20261021']
   pull_request:
     paths:
       - 'index.html'
