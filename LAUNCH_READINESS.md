@@ -18,13 +18,13 @@
 | Area | Implementation | Current truth |
 | --- | --- | --- |
 | Customer-facing preview | `index.html`, `style.css`, `script.js`, `privacy.html` | Committed to feature branch, **not verified deployed** |
-| Collector discovery | `catalog.json` with **three Sideshow editorial links** | Source pages exist; **no tracked affiliate IDs or commissions** |
+| Collector discovery | `catalog.json` with **three Sideshow editorial links** | Source pages verified against official seller pages; **no tracked affiliate IDs or commissions** |
 | Red Signal | Two concept preview cards; detail/specs unverified | **Not offered for sale** |
 | Yumi | Development-only studio section | No master-image / product manufacturing approval established |
 | Interactive world | `experience.html` (~931KB archive-preserved v0.2) | Optional **prototype**, not live orders |
 | Consent-based waitlist | Cloudflare Pages `functions/api/signup.js`, KV `WAITLIST` support | `config.js signupEnabled:false`; server `SIGNUP_ENABLED` default OFF; **no demonstrated accepted signups** |
 | Anonymous analytics | `functions/api/event.js`, Cloudflare Analytics Engine binding support | `config.js analyticsEnabled:false`; server `EVENTS_ENABLED` default OFF; **no real captured events** |
-| Routes/headers | `_routes.json`, `_headers` | Source committed, deployed behavior unverified |
+| Routes/headers | `_routes.json`, `_headers`, `robots.txt` | Staged preview is **noindex**; deployed header behavior unverified. Remove this only after public release approval. |
 | Regression tests | `tests/preview.test.mjs`, `.github/workflows/preview-qa.yml` | Tests committed; **no GitHub Actions run/result observed** |
 | Existing PR #1 | Earlier draft pull request | **Closed without merging**. Preserve closure; no replacement/reopen performed. |
 | Production `main` | Default branch | **Unchanged by these staged changes** |
@@ -36,12 +36,15 @@ The current three Sideshow source pages are:
 3. My Hero Academia Villain Trinity — Prime 1 Studio: https://www.sideshow.com/collectibles/my-hero-academia-tomura-shigaraki-dabi-and-himiko-toga-prime-1-studio-914317?var=9143172
 
 All are **editorial research links**, not affiliate links, and no fixed seller prices are promised.
-The client renders `status:"affiliate"` only after `partner_verified:true`, `rights_verified:true`, `link_verified:true` and an HTTPS tracked link pass the allowlist. It must also accurately disclose the partner, merchant checkout and commission relationship.
+The client renders `status:"affiliate"` only after a verified official merchant product URL plus `source_verified:true`, `partner_verified:true`, `rights_verified:true`, `link_verified:true` and an HTTPS tracked link pass an exact hostname allowlist. Supported seller host mappings: Sideshow, Hot Topic, BoxLunch, CDJapan, Playasia. CJ redirect examples are allowed only for Hot Topic/BoxLunch when `tracking_network:"CJ"` and `tracking_host_verified:true` additionally pass; no account enrollment is inferred. The link must accurately disclose the partner, external merchant checkout and potential commission relationship.
 
 The existing September 28 affiliate brief prioritized Hot Topic, BoxLunch, CDJapan and Playasia for first-stage applications, Sideshow after collector-audience evidence. Those priority choices are **not changed** by showing three editorial Sideshow items in the prototype.
 
 ## 4. Tests and evidence, distinguished
-- **Passed:** 16/16 static checks against the retrieved staged branch files (file presence, label/availability claims, catalog statuses, affiliate gates, disabled services, minimal schema and retention controls). Static passing is not a deployed or end-to-end functional pass.
+- **Passed:** 16/16 structural checks on the staged branch snapshot (file presence, product claims, catalog statuses, affiliate gates, disabled services and retention controls).
+- **Passed:** 11/11 backend behavior checks against fetched GitHub source in isolated V8 with mocked Cloudflare Response, crypto digest, origin and KV/Analytics Engine bindings (consent, bad input, size, storage, honeypot, default-off analytics and event filtering). This is **not** a live Cloudflare proof.
+- **Passed:** 4/4 client behavior checks against fetched GitHub source with a mocked DOM/catalog network: three accurate editorial links rendered; editorial links had no sponsored tag; malicious/unauthorized links filtered; a fully gated illustrative CJ link rendered. This is **not** rendered-page or merchant-commission proof.
+- **Staged, unverified by GitHub CI:** built-in Node.js tests in `tests/preview.test.mjs` and `tests/collector-client.test.mjs`; no GitHub Actions run was observed and this cannot be counted as passing Node CI.
 - **Passed on separate ARCHIVED v0.2:** Chromium desktop (1440×900) and mobile (390×844) visual rendering, no horizontal overflow, hero SVG asset loaded, no page JavaScript errors. This test **does not certify the current GitHub branch**.
 - **Not observed:** GitHub Actions test result, local Node test suite result, Pages build/deployment, HTTPS custom-domain health, a real signup + unsubscribe cycle, anti-abuse/rate-limit effectiveness, analytics ingest/denominator accuracy, partner affiliate enrollment, affiliate attributed sale, physical garment samples, purchase checkout or financial contribution.
 - No user/customer emails, payment records or authenticated affiliate program credentials were accessed.
@@ -50,11 +53,11 @@ The existing September 28 affiliate brief prioritized Hot Topic, BoxLunch, CDJap
 ## 5. Exact release gates — remaining work, not a new strategy
 **G0 — Protect prior data and host:** With authorized access, inspect whether the prior AniVerse preview and response desk hold any records. Verify current DNS, Cloudflare Pages project and custom-domain owner; preserve existing records before any redirect or deployment.
 
-**G1 — Cloudflare preview only:** Connect the existing repo feature branch to a nonproduction Pages preview. Build and load both mobile and desktop; validate `index.html`, `experience.html`, `_routes.json`, correct security headers, legal/contact information, accessible forms and source/rights of imagery.
+**G1 — Cloudflare preview only:** In the EXISTING Cloudflare Pages project if accessible, use preview branch controls to allow only `launch/affiliate-preview-gated-20261021` as a custom preview branch; leave production branch, domain and DNS untouched. Verify actual Pages project before creating or replacing anything. Build and load both mobile and desktop; validate `index.html`, `experience.html`, `_routes.json`, staged `X-Robots-Tag` and robots rules, legal/contact, keyboard controls and rights of source art. Cloudflare documentation: https://developers.cloudflare.com/pages/configuration/git-integration/ and https://developers.cloudflare.com/pages/configuration/branch-build-controls/ .
 
-**G2 — Consented signup:** Confirm an active monitored business contact, approved privacy retention/deletion terms and email delivery provider; bind Cloudflare KV `WAITLIST`, protect route with robust rate limiting/bot controls, test invalid, valid, duplicate, unsubscribe and deletion requests on test records, and confirm actual stored receipt. Only then set the Cloudflare `SIGNUP_ENABLED` and client `signupEnabled` switches. Without those controls, leave DISABLED.
+**G2 — Consented signup:** Confirm an active monitored business contact, approved privacy retention/deletion terms and email delivery provider; bind Cloudflare KV `WAITLIST` in PREVIEW only, protect route with robust rate limiting/bot controls, test invalid, valid, duplicate, unsubscribe and deletion requests on test records, and confirm actual stored receipt. Official reference: https://developers.cloudflare.com/pages/functions/bindings/ . Only then set the Cloudflare `SIGNUP_ENABLED` and client `signupEnabled` switches. Without those controls, leave DISABLED.
 
-**G3 — Measurement:** Decide consent/cookie policy, bind Analytics Engine and test anonymous event receipts; verify unique visitor denominators and attribution/source before enabling `EVENTS_ENABLED` and client `analyticsEnabled`. Track referral clicks separately from partner-reported commissioned purchases.
+**G3 — Measurement:** Decide privacy/cookie policy, bind Analytics Engine in preview and test anonymous event receipts. The current `page_view` event counts **impressions, not unique visitors**. Determine any independently verified unique-visitor denominator and acquisition source before making unique visitor/conversion claims. Normalize multiword partner IDs (e.g. `Hot Topic` to `hot-topic`). Track outbound merchant clicks separately from partner-reported commissioned purchases. Enable `EVENTS_ENABLED` and client `analyticsEnabled` only after anti-abuse and consent review. Reference: https://developers.cloudflare.com/pages/functions/bindings/ .
 
 **G4 — Affiliate pilot:** Obtain real application approval and terms from the existing prioritized partner list, current authenticated products, approval to use imagery, verified tracked links and clear FTC disclosure. Add 3 allowed affiliate products and complete the pre-existing 14-day content/traffic experiment. Do not presume program approval, customer data or sales.
 
