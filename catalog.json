@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "id": "sideshow-sakamoto-914821",
+    "title": "Taro Sakamoto — Iron Studios",
+    "partner": "Sideshow",
+    "category": "anime-scale-figure",
+    "description": "Accessible collector tier. A character-focused 1:10-scale display piece; review actual edition, final price and shipping directly with Sideshow.",
+    "source_url": "https://www.sideshow.com/collectibles/sakamoto-days-taro-sakamoto-iron-studios-914821",
+    "status": "editorial",
+    "source_verified": true,
+    "icon": "◇"
+  },
+  {
+    "id": "sideshow-kamado-914976",
+    "title": "Tanjiro & Nezuko — Prime 1 Studio",
+    "partner": "Sideshow",
+    "category": "premium-anime-statue",
+    "description": "High-end collector tier. Evaluate size, finish, installment terms and total delivered cost on the retailer's listing.",
+    "source_url": "https://www.sideshow.com/collectibles/demon-slayer-kamado-tanjiro-kamado-nezuko-prime-1-studio-914976",
+    "status": "editorial",
+    "source_verified": true,
+    "icon": "✦"
+  },
+  {
+    "id": "sideshow-trinity-914317",
+    "title": "My Hero Academia Villain Trinity — Prime 1 Studio",
+    "partner": "Sideshow",
+    "category": "premier-resin-statue",
+    "description": "Premier grail tier. A substantial display centerpiece where preorders, dimensions, shipping and buyer risk deserve careful comparison.",
+    "source_url": "https://www.sideshow.com/collectibles/my-hero-academia-tomura-shigaraki-dabi-and-himiko-toga-prime-1-studio-914317?var=9143172",
+    "status": "editorial",
+    "source_verified": true,
+    "icon": "✧"
+  }
+]
