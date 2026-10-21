@@ -19,23 +19,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const cardHost=document.getElementById("affiliate-cards");
   fetch("catalog.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("Catalog unavailable");return r.json();}).then(items=>{
     if(!Array.isArray(items))return;
-    const approved=items.filter(item=>item&&item.status==="approved"&&item.rights_verified===true&&item.partner_verified===true&&typeof item.affiliate_url==="string"&&/^https:\/\//i.test(item.affiliate_url)&&typeof item.title==="string"&&typeof item.partner==="string");
-    if(!approved.length || !cardHost)return;
+    const approved=items.filter(item=>{
+      if(!item || !["affiliate","editorial"].includes(item.status))return false;
+      if(typeof item.id!=="string"||typeof item.title!=="string"||typeof item.partner!=="string")return false;
+      const link=item.status==="affiliate"?item.affiliate_url:item.source_url;
+      if(typeof link!=="string"||!/^https:\/\//i.test(link))return false;
+      if(item.status==="affiliate" && (item.partner_verified!==true || item.rights_verified!==true || item.link_verified!==true))return false;
+      if(item.status==="editorial" && item.source_verified!==true)return false;
+      try{const u=new URL(link);return u.protocol==="https:"&&u.hostname.toLowerCase()==="www.sideshow.com";}catch{return false;}
+    });
+    if(!approved.length||!cardHost)return;
     cardHost.replaceChildren();
     approved.slice(0,6).forEach(item=>{
-      const article=document.createElement("article");article.className="product-card";
-      const meta=document.createElement("p");meta.className="eyebrow";meta.textContent="CURATED COLLECTIBLE · VERIFIED PARTNER";
+      const isAffiliate=item.status==="affiliate",article=document.createElement("article");
+      article.className="product-card";
+      const label=document.createElement("p");label.className="eyebrow";
+      label.textContent=isAffiliate?"VERIFIED AFFILIATE OFFER":"COLLECTOR RESEARCH · EDITORIAL LINK";
+      const graphic=document.createElement("div");graphic.className="card-visual";
+      graphic.setAttribute("aria-hidden","true");
+      graphic.textContent=item.icon||"◇";
       const h=document.createElement("h3");h.textContent=item.title;
-      const p=document.createElement("p");p.textContent=item.description||"Details on the retailer's website.";
-      const partner=document.createElement("p");partner.className="fineprint";partner.textContent="Offered by "+item.partner+". Final price and availability on retailer site.";
-      const a=document.createElement("a");a.className="text-link";a.textContent="View at "+item.partner+" ↗";a.href=item.affiliate_url;a.target="_blank";a.rel="sponsored noopener noreferrer";a.addEventListener("click",()=>emit("affiliate_outbound_click",{sku:item.id||"unassigned",partner:item.partner,category:item.category||"unknown"}));
-      article.append(meta,h,p,partner,a);cardHost.append(article);
+      const p=document.createElement("p");p.textContent=item.description||"Inspect product details directly with the retailer.";
+      const partner=document.createElement("p");partner.className="fineprint";
+      partner.textContent=isAffiliate?"Affiliate link · Tu Sabes AniVerse may earn a commission. Seller: "+item.partner+".":("Independent editorial selection. No commission link is active. Seller: "+item.partner+".");
+      const a=document.createElement("a");a.className="text-link";
+      a.textContent="See current price & availability at "+item.partner+" ↗";
+      a.href=isAffiliate?item.affiliate_url:item.source_url;
+      a.target="_blank";a.rel=(isAffiliate?"sponsored ":"")+"noopener noreferrer";
+      a.addEventListener("click",()=>emit(isAffiliate?"affiliate_outbound_click":"editorial_outbound_click",{sku:item.id,partner:item.partner,category:item.category||"unknown"}));
+      article.append(label,graphic,h,p,partner,a);cardHost.append(article);
     });
   }).catch(()=>{ /* The safe curation-queue fallback remains visible. */ });
   const form=document.getElementById("signup-form"), btn=document.getElementById("signup-submit"), message=document.getElementById("signup-message");
   if(!form||!btn||!message)return;
   const endpoint=(typeof config.signupEndpoint==="string")?config.signupEndpoint.trim():"";
-  const validEndpoint=endpoint.startsWith("https://") && !endpoint.includes("REPLACE");
+  const validEndpoint=config.signupEnabled===true && endpoint==="/api/signup";
   if(!validEndpoint)return;
   btn.disabled=false;btn.textContent="Join the first-access list";
   message.textContent="You'll receive occasional emails about your chosen interests. Unsubscribe anytime.";
@@ -47,9 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const interests=Array.from(form.querySelectorAll('input[name="interests"]:checked')).map(x=>x.value);
     btn.disabled=true;message.textContent="Submitting securely…";
     try{
-      const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,interests,consent:true,source:"aniverse-preview",submitted_at:new Date().toISOString()})});
+      const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,interests,consent:true,website:form.elements.website.value,source:"aniverse-preview"})});
       if(!res.ok)throw Error("Signup not accepted");
-      message.textContent="Your request was received. Watch for a confirmation from the signup provider.";
+      message.textContent="Your first-access interest has been recorded. No email will be sent until the service is configured to deliver it.";
       emit("signup_accepted",{interest_count:interests.length});form.reset();
     }catch(err){message.textContent="Signup didn't complete. Please try later.";emit("signup_error",{stage:"submission"});}
     finally{btn.disabled=false;}
