@@ -30,14 +30,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const cardHost=document.getElementById("affiliate-cards");
   fetch("catalog.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("Catalog unavailable");return r.json();}).then(items=>{
     if(!Array.isArray(items))return;
+    // Fixed publisher/seller allowlist: a known source URL is required even when
+    // the affiliate link uses a redirect. No publisher approvals are inferred.
+    const merchantHosts=Object.freeze({
+      "Sideshow":["www.sideshow.com","sideshow.com"],
+      "Hot Topic":["www.hottopic.com","hottopic.com"],
+      "BoxLunch":["www.boxlunch.com","boxlunch.com"],
+      "CDJapan":["www.cdjapan.co.jp","cdjapan.co.jp"],
+      "Playasia":["www.play-asia.com","play-asia.com"]
+    });
+    // CJ uses publisher attribution links on separate domains. Only this
+    // documented example host is preconfigured. Add others on evidence.
+    const cjRedirectHosts=["www.jdoqocy.com","jdoqocy.com"];
+    const httpsHost=url=>{try{const u=new URL(url);return u.protocol==="https:"&&!u.username&&!u.password?u.hostname.toLowerCase():null;}catch{return null;}};
     const approved=items.filter(item=>{
       if(!item || !["affiliate","editorial"].includes(item.status))return false;
-      if(typeof item.id!=="string"||typeof item.title!=="string"||typeof item.partner!=="string")return false;
-      const link=item.status==="affiliate"?item.affiliate_url:item.source_url;
-      if(typeof link!=="string"||!/^https:\/\//i.test(link))return false;
-      if(item.status==="affiliate" && (item.partner_verified!==true || item.rights_verified!==true || item.link_verified!==true))return false;
-      if(item.status==="editorial" && item.source_verified!==true)return false;
-      try{const u=new URL(link);return u.protocol==="https:"&&u.hostname.toLowerCase()==="www.sideshow.com";}catch{return false;}
+      if(typeof item.id!=="string"||! /^[a-zA-Z0-9_-]{1,48}$/.test(item.id)||typeof item.title!=="string"||typeof item.partner!=="string")return false;
+      const allowed=merchantHosts[item.partner];
+      if(!allowed || !allowed.includes(httpsHost(item.source_url)))return false;
+      if(item.source_verified!==true)return false;
+      if(item.status==="editorial")return true;
+      if(item.partner_verified!==true||item.rights_verified!==true||item.link_verified!==true)return false;
+      const linkHost=httpsHost(item.affiliate_url);
+      if(!linkHost)return false;
+      if(allowed.includes(linkHost))return true;
+      // Hot Topic and BoxLunch publishers may receive CJ network links.
+      // A matching CJ host never overrides required partner & link evidence.
+      return ["Hot Topic","BoxLunch"].includes(item.partner)&&
+        item.tracking_network==="CJ" && item.tracking_host_verified===true&&
+        cjRedirectHosts.includes(linkHost);
     });
     if(!approved.length||!cardHost)return;
     cardHost.replaceChildren();
