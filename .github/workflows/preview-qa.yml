@@ -16,6 +16,10 @@ on:
       - '.github/workflows/preview-qa.yml'
       - '_routes.json'
       - 'package.json'
+      - 'scripts/**'
+      - 'robots.txt'
+      - '_headers'
+      - 'LAUNCH_READINESS.md'
   workflow_dispatch:
 permissions:
   contents: read
@@ -32,5 +36,7 @@ jobs:
           node-version: '22'
       - name: Syntax checks
         run: npm run check
-      - name: Deterministic anti-drift and backend tests
+      - name: Build public-only Cloudflare dist output
+        run: npm run build
+      - name: Deterministic anti-drift, client and backend tests
         run: npm test
