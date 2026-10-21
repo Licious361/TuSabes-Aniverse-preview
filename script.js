@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }).catch(()=>{});
     }
   };
+  // Page-view counts are anonymous impressions, not unique visitor counts.
+  emit("page_view");
   const year=document.getElementById("year"); if(year) year.textContent=String(new Date().getFullYear());
   document.querySelectorAll("[data-action]").forEach(el=>el.addEventListener("click",()=>emit("site_navigation",{action:el.dataset.action})));
   document.querySelectorAll("[data-interest]").forEach(el=>el.addEventListener("click",()=>{
@@ -78,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       a.textContent="See current price & availability at "+item.partner+" ↗";
       a.href=isAffiliate?item.affiliate_url:item.source_url;
       a.target="_blank";a.rel=(isAffiliate?"sponsored ":"")+"noopener noreferrer";
-      a.addEventListener("click",()=>emit(isAffiliate?"affiliate_outbound_click":"editorial_outbound_click",{sku:item.id,partner:item.partner,category:item.category||"unknown"}));
+      a.addEventListener("click",()=>emit(isAffiliate?"affiliate_outbound_click":"editorial_outbound_click",{sku:item.id,partner:item.partner.toLowerCase().replace(/[^a-z0-9]+/g,"-"),category:item.category||"unknown"}));
       article.append(label,graphic,h,p,partner,a);cardHost.append(article);
     });
   }).catch(()=>{ /* The safe curation-queue fallback remains visible. */ });
