@@ -2,7 +2,7 @@
 // Off by default. Set EVENTS_ENABLED=true and bind an Analytics Engine dataset
 // named ANALYTICS_ENGINE after documenting collection and deployment tests.
 // Never accept email, names, full URLs, IP addresses, or raw querystrings here.
-const EVENTS=new Set(["site_navigation","design_interest","editorial_outbound_click","affiliate_outbound_click","signup_accepted","signup_error"]);
+const EVENTS=new Set(["page_view","site_navigation","design_interest","editorial_outbound_click","affiliate_outbound_click","signup_accepted","signup_error"]);
 const reply=(payload,status)=>new Response(JSON.stringify(payload),{status,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}});
 export async function onRequestPost({request,env={}}){
   if(env.EVENTS_ENABLED!=="true"||!env.ANALYTICS_ENGINE||typeof env.ANALYTICS_ENGINE.writeDataPoint!=="function")return reply({error:"Event collection disabled."},503);
