@@ -1,61 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TuSabes AniVerse - Prototype</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0c0c">
+  <meta name="description" content="Tu Sabes AniVerse: thoughtfully curated collector discoveries and original anime-inspired streetwear. Preview Capsule 001: Red Signal.">
+  <title>Tu Sabes AniVerse — Collector Culture & Original Streetwear</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js" defer></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-
-    <header style="text-align: center; padding: 40px 20px;">
-        <h1 style="font-size: 2.5rem; letter-spacing: 2px;">TuSabes AniVerse</h1>
-        <p style="font-family: 'Permanent Marker', cursive; color: #8b0000;">Preview Environment</p>
-    </header>
-
-    <main style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-        
-        <section id="front-stalls" class="market-zone">
-            <h2>Front Stalls</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                <div class="product-card stall-item" style="padding: 20px;">
-                    <div class="stall-img-container"></div>
-                    <h3>Ronin Heavy Hoodie</h3>
-                    <span class="market-tag">Drop 01</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="inner-aisles" class="market-zone">
-            <h2>Inner Aisles</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
-                <div class="product-card stall-item" style="padding: 20px;">
-                    <div class="stall-img-container"></div>
-                    <h3>Archival Prints</h3>
-                    <span class="market-tag">Restocked</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="collectors-corner" class="market-zone">
-            <h2>Collector's Corner</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
-                <div class="product-card collector-card" style="padding: 20px; text-align: center;">
-                    <div class="stall-img-container" style="aspect-ratio: 2.5/3.5;"></div>
-                    <h3>1st Edition Holo</h3>
-                    <span class="market-tag">Vault</span>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="market-zone">
-        <div class="backroom-entry">
-            <a href="#" class="backroom-link">The Backroom</a>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="announcement">Soft-launch preview · Curated discoveries and Red Signal are in development</div>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="Tu Sabes AniVerse home"><span>TU SABES</span><strong>ANIVERSE</strong></a>
+    <nav aria-label="Main navigation"><a href="#collectors-corner">Collector's Corner</a><a href="#front-stalls">Red Signal</a><a href="#inner-aisles">Studio</a><a class="nav-cta" href="#first-access">First access</a></nav>
+  </header>
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-content"><p class="eyebrow">SHOP LIKE A SENPAI · FROM THE VILLAGE MARKET AT DUSK</p>
+        <h1 id="hero-title">Wear the <em>signal.</em></h1>
+        <p class="hero-lede">Find the objects worth collecting. Follow original anime-inspired apparel as it becomes real. One curated destination—built for people who care about the details.</p>
+        <div class="actions"><a class="button primary" href="#collectors-corner" data-action="hero_discover">Discover the market</a><a class="button secondary" href="#first-access" data-action="hero_signup">Get first access</a></div>
+        <p class="micro">The preview is not a live product catalog. No items on this page are currently offered for purchase.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true"><span class="ring ring-1"></span><span class="ring ring-2"></span><span class="sun">TS<span>✦</span>AV</span><span class="art-label">THE MARKET / AFTER DARK</span></div>
+    </section>
+    <section class="market-zone zone" id="collectors-corner" aria-labelledby="collector-title">
+      <div class="section-head"><div><p class="eyebrow">01 / DISCOVER</p><h2 id="collector-title">Collector's Corner</h2></div><p>High-value finds are the front door—not an inventory gamble. Authorized retailer listings will appear here after partner terms, images and referral links are verified.</p></div>
+      <div id="affiliate-cards" class="cards" aria-live="polite">
+        <article class="product-card"><span class="eyebrow">CURATION QUEUE · NOT A LISTING</span><div class="card-visual visual-grail" aria-hidden="true">◇</div><h3>Premium display pieces</h3><p>Collector statues and figures, researched for source, legitimacy and buyer value.</p><span class="status">Awaiting verified partner selection</span></article>
+        <article class="product-card"><span class="eyebrow">CURATION QUEUE · NOT A LISTING</span><div class="card-visual visual-import" aria-hidden="true">✧</div><h3>Japan-origin finds</h3><p>Imported art books, figures and specialty releases—with real shipping details, not guesswork.</p><span class="status">Awaiting verified partner selection</span></article>
+        <article class="product-card"><span class="eyebrow">CURATION QUEUE · NOT A LISTING</span><div class="card-visual visual-access" aria-hidden="true">✳</div><h3>Culture & accessories</h3><p>Officially sourced style pieces, desk accessories and fan favorites that complement the originals.</p><span class="status">Awaiting verified partner selection</span></article>
+      </div>
+      <p class="fineprint" id="affiliate-disclosure">When approved affiliate links are shown, we will identify them clearly. An eligible purchase may earn Tu Sabes AniVerse a commission. The retailer—not Tu Sabes AniVerse—handles the external checkout.</p>
+    </section>
+    <section class="market-zone zone" id="front-stalls" aria-labelledby="red-title">
+      <div class="section-head"><div><p class="eyebrow">02 / ORIGINAL STREETWEAR</p><h2 id="red-title">Capsule 001: <em>Red Signal</em></h2></div><p>Two distinct hoodie concepts. Deep crimson replaces the previous plum direction. Fabric, fit, print and availability are not yet verified.</p></div>
+      <div class="cards two">
+        <article class="product-card" id="afterglow"><div class="card-visual hoodie-visual charcoal" aria-hidden="true"><span class="silhouette">✦</span><small>WASHED CHARCOAL / CONCEPT</small></div><span class="eyebrow">CONCEPT PREVIEW · NOT FOR SALE</span><h3>Afterglow</h3><p>Washed-charcoal hoodie direction, restrained front brand mark and character-led back composition. Proposed deep-crimson detailing.</p><a href="#first-access" class="text-link" data-interest="afterglow">Follow this design →</a></article>
+        <article class="product-card" id="stone-frame"><div class="card-visual hoodie-visual stone" aria-hidden="true"><span class="silhouette">✧</span><small>STONE / CONCEPT</small></div><span class="eyebrow">CONCEPT PREVIEW · NOT FOR SALE</span><h3>Stone Frame</h3><p>Stone-color hoodie direction, framed character artwork and a quiet front mark. Proposed deep-crimson accents.</p><a href="#first-access" class="text-link" data-interest="stone-frame">Follow this design →</a></article>
+      </div>
+    </section>
+    <section class="market-zone zone" id="inner-aisles" aria-labelledby="studio-title">
+      <div class="section-head"><div><p class="eyebrow">03 / THE CREATIVE STUDIO</p><h2 id="studio-title">Midnight Manga Studio</h2></div><p>Original illustrated characters and the foundations for future publishing, art prints and collectibles.</p></div>
+      <div class="studio-callout"><div><p class="eyebrow">ORIGINAL IP · DEVELOPMENT</p><h3>Yumiko “Yumi” Solís</h3><p>Our original character system is being refined and tested for consistent artwork. Coloring books, posters, pinups, stickers and character-led goods are planned—not approved products or current offers.</p></div><span class="seal" aria-hidden="true">月</span></div>
+    </section>
+    <section class="market-zone signup-zone" id="first-access" aria-labelledby="signup-title">
+      <div><p class="eyebrow">04 / GET IN EARLY</p><h2 id="signup-title">First access to the market.</h2><p>Follow new collector features and real progress on Red Signal. Signups will be enabled after the consent-based email service is connected and tested.</p></div>
+      <form id="signup-form" novalidate>
+        <label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com" required>
+        <fieldset><legend>What interests you most? (optional)</legend>
+          <label><input type="checkbox" name="interests" value="collectibles"> Premium collectibles</label>
+          <label><input type="checkbox" name="interests" value="red-signal"> Red Signal apparel</label>
+          <label><input type="checkbox" name="interests" value="studio"> Art, books & prints</label>
+        </fieldset>
+        <label class="consent"><input type="checkbox" id="consent" required> <span>I agree to receive occasional Tu Sabes AniVerse emails and understand I can unsubscribe. <a href="privacy.html">Privacy notice</a>.</span></label>
+        <input class="trap" tabindex="-1" autocomplete="off" type="text" name="website" aria-hidden="true">
+        <button class="button primary" type="submit" id="signup-submit" disabled>Signup awaiting connection</button>
+        <p id="signup-message" class="form-message" role="status" aria-live="polite">No email is collected by this preview until a signup service is verified.</p>
+      </form>
+    </section>
+  </main>
+  <footer><div class="wordmark footer-mark"><span>TU SABES</span><strong>ANIVERSE</strong></div><div><p>Original culture. Considered curation. No counterfeit goods. No premature product promises.</p><p><a href="privacy.html">Privacy</a> · <a href="#top">Back to top ↑</a></p></div><small>© <span id="year"></span> Tu Sabes AniVerse · A TuSabes Industries project · Preview only</small></footer>
 </body>
 </html>
