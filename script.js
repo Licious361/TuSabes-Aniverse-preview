@@ -6,7 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
     window.dataLayer=window.dataLayer || [];
     window.dataLayer.push(safe);
     window.dispatchEvent(new CustomEvent("aniverse:analytics", {detail:safe}));
-    // Events are only queued for a future analytics integration; no external request is sent here.
+    // First-party event intake is opt-in at configuration and OFF by default.
+    // Only non-identifying, allowlisted fields reach the Cloudflare endpoint.
+    if(config.analyticsEnabled===true && config.eventEndpoint==="/api/event"){
+      const packet={event:safe.event};
+      for(const field of ["action","design","sku","partner","category"]){
+        if(typeof safe[field]==="string"&&/^[\\w-]{1,48}$/.test(safe[field]))packet[field]=safe[field];
+      }
+      fetch(config.eventEndpoint,{
+        method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(packet),credentials:"omit",keepalive:true
+      }).catch(()=>{});
+    }
   };
   const year=document.getElementById("year"); if(year) year.textContent=String(new Date().getFullYear());
   document.querySelectorAll("[data-action]").forEach(el=>el.addEventListener("click",()=>emit("site_navigation",{action:el.dataset.action})));
